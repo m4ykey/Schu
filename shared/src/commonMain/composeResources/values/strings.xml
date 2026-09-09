@@ -15,4 +15,16 @@
     <string name="height">Height (cm)</string>
     <string name="weight">Weight (kg)</string>
     <string name="next">Next</string>
+    <string name="weight_loss">Lose weight</string>
+    <string name="muscle_gain">Build muscle</string>
+    <string name="endurance">Improve endurance</string>
+    <string name="increase_strength">Increase strength</string>
+    <string name="general_fitness">Improve overall fitness</string>
+    <string name="prev_step">PREVIOUS STEP</string>
+    <string name="goal_required">Please select at least one goal.</string>
+    <string name="what_is_your_goal">What is your goal?</string>
+    <string name="this_will_help_personalize_your_training_plan">This will help us personalize your training plan.</string>
+    <string name="years">years</string>
+    <string name="kg">kg</string>
+    <string name="cm">cm</string>
 </resources>
