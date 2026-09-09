@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Schu</string>
+    <string name="welcome_text_content">Your workout. \nYour progress.</string>
+    <string name="welcome_text">Personalized home workouts that adapt to you. No equipment or gym required.</string>
+    <string name="get_started">Get Started</string>
+    <string name="field_required">This field is required</string>
+    <string name="invalid_value">Please enter a valid value</string>
+    <string name="lets_get_to_know_you">Let\'s get to know you</string>
+    <string name="help_us_tailor_your_plan">Help us tailor your plan by providing basic information.</string>
+    <string name="back">Back</string>
+    <string name="age">Age</string>
+    <string name="age_placeholder">e.g. 28</string>
+    <string name="height_placeholder">e.g. 180</string>
+    <string name="weight_placeholder">e.g. 70</string>
+    <string name="height">Height (cm)</string>
+    <string name="weight">Weight (kg)</string>
+    <string name="next">Next</string>
+</resources>
