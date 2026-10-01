@@ -27,4 +27,16 @@
     <string name="years">years</string>
     <string name="kg">kg</string>
     <string name="cm">cm</string>
+    <string name="what_is_your_activity_level">What is your activity level?</string>
+    <string name="activity_level_sub_text">Tell us how active you are on a typical day. This will help us create a training plan that fits your lifestyle.</string>
+    <string name="sedentary">Sedentary</string>
+    <string name="sedentary_sub_text">Little or no exercise. Mostly sitting during the day.</string>
+    <string name="lightly_active">Lightly active</string>
+    <string name="lightly_active_sub_text">Light exercise or walking 1–3 days per week.</string>
+    <string name="moderately_active">Moderately active</string>
+    <string name="moderately_active_sub_text">Moderate exercise or sports 3–5 days per week.</string>
+    <string name="very_active">Very active</string>
+    <string name="very_active_sub_text">Hard exercise or sports 6–7 days per week.</string>
+    <string name="extremely_active">Extremely active</string>
+    <string name="extremely_active_sub_text">Very demanding training or physically demanding work.</string>
 </resources>
