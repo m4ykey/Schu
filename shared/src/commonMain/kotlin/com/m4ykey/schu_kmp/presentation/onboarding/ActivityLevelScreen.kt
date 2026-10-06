@@ -47,9 +47,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.m4ykey.schu_kmp.domain.ActivityLevels
+import com.m4ykey.schu_kmp.domain.FitnessGoal
 import com.m4ykey.schu_kmp.domain.icon
 import com.m4ykey.schu_kmp.domain.subText
 import com.m4ykey.schu_kmp.domain.text
+import com.m4ykey.schu_kmp.domain.title
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.painterResource
@@ -66,7 +68,8 @@ import schukmp.shared.generated.resources.what_is_your_activity_level
 fun ActivityLevelScreen(
     modifier: Modifier = Modifier,
     onBack : () -> Unit,
-    onNext : () -> Unit
+    onNext : () -> Unit,
+    goals : List<FitnessGoal>
 ) {
     Scaffold(
         topBar = {
@@ -76,7 +79,8 @@ fun ActivityLevelScreen(
         ActivityLevelContent(
             modifier = modifier.padding(paddingValues),
             onBack = onBack,
-            onNext = onNext
+            onNext = onNext,
+            goals = goals
         )
     }
 }
@@ -85,7 +89,8 @@ fun ActivityLevelScreen(
 fun ActivityLevelContent(
     modifier: Modifier = Modifier,
     onNext: () -> Unit,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    goals : List<FitnessGoal>
 ) {
     val currentStep = 3
     val totalSteps = 5
@@ -181,7 +186,17 @@ fun ActivityLevelContent(
             color = Color.DarkGray,
             fontSize = 16.sp
         )
-        LazyRow() { }
+        LazyRow(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            items(goals) { goal ->
+                PrevStepItem(
+                    icon = goal.icon,
+                    text = stringResource(goal.title)
+                )
+            }
+        }
         Row(
             modifier = Modifier.fillMaxWidth()
         ) {

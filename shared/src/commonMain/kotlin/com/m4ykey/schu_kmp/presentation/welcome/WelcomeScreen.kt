@@ -1,12 +1,14 @@
 package com.m4ykey.schu_kmp.presentation.welcome
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -19,6 +21,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -79,7 +82,9 @@ fun WelcomeContent(
     onGetStarted: () -> Unit
 ) {
     Column(
-        modifier = modifier.fillMaxSize()
+        modifier = modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
         Card(
             shape = RoundedCornerShape(16.dp),
@@ -88,7 +93,9 @@ fun WelcomeContent(
             )
         ) {
             Image(
-                modifier = modifier.padding(16.dp),
+                modifier = modifier
+                    .size(200.dp)
+                    .padding(16.dp),
                 contentScale = ContentScale.Fit,
                 contentDescription = null,
                 painter = painterResource(Res.drawable.ic_workout_1)

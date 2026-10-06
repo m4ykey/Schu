@@ -35,6 +35,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.m4ykey.schu_kmp.presentation.onboarding.model.PersonalInfoItem
 import com.m4ykey.schu_kmp.presentation.onboarding.validation.PersonalInfoError
 import com.m4ykey.schu_kmp.presentation.onboarding.validation.message
 import org.jetbrains.compose.resources.DrawableResource
@@ -61,7 +62,7 @@ import schukmp.shared.generated.resources.weight_placeholder
 fun PersonalInfoScreen(
     modifier : Modifier = Modifier,
     onBack : () -> Unit,
-    onNext : () -> Unit
+    onNext : (PersonalInfoItem) -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -79,7 +80,7 @@ fun PersonalInfoScreen(
 @Composable
 fun PersonalContent(
     modifier : Modifier = Modifier,
-    onNext : () -> Unit,
+    onNext : (PersonalInfoItem) -> Unit,
     onBack : () -> Unit
 ) {
     var age by remember { mutableStateOf("") }
@@ -251,7 +252,7 @@ fun PersonalContent(
             Button(
                 onClick = {
                     if (validate()) {
-                        onNext()
+                        onNext(PersonalInfoItem(age = age.toInt(), height = height.toInt(), weight.toDouble()))
                     }
                 },
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF006B5F)),

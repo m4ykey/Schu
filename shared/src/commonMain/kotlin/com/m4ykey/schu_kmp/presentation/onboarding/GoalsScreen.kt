@@ -49,6 +49,7 @@ import androidx.compose.ui.unit.sp
 import com.m4ykey.schu_kmp.domain.FitnessGoal
 import com.m4ykey.schu_kmp.domain.icon
 import com.m4ykey.schu_kmp.domain.title
+import com.m4ykey.schu_kmp.presentation.onboarding.model.PersonalInfoItem
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.painterResource
@@ -72,8 +73,11 @@ import kotlin.collections.emptySet
 @Composable
 fun GoalsScreen(
     modifier : Modifier = Modifier,
-    onNext : () -> Unit,
-    onBack : () -> Unit
+    onNext : (goals : List<FitnessGoal>) -> Unit,
+    onBack : () -> Unit,
+    age : Int,
+    height : Int,
+    weight : Double
 ) {
     Scaffold(
         topBar = {
@@ -83,7 +87,10 @@ fun GoalsScreen(
         GoalsContent(
             onNext = onNext,
             onBack = onBack,
-            modifier = modifier.padding(paddingValues)
+            modifier = modifier.padding(paddingValues),
+            age = age,
+            weight = weight,
+            height = height
         )
     }
 }
@@ -91,8 +98,11 @@ fun GoalsScreen(
 @Composable
 fun GoalsContent(
     modifier : Modifier = Modifier,
-    onNext: () -> Unit,
-    onBack: () -> Unit
+    onNext: (goals : List<FitnessGoal>) -> Unit,
+    onBack: () -> Unit,
+    age : Int,
+    weight : Double,
+    height : Int
 ) {
     val currentStep = 2
     val totalSteps = 5
@@ -182,6 +192,9 @@ fun GoalsContent(
                     }
                 )
             }
+            item {
+                Spacer(modifier = Modifier.height(10.dp))
+            }
         }
 
         if (goalsError) {
@@ -205,15 +218,15 @@ fun GoalsContent(
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             PrevStepItem(
-                text = Res.string.years,
+                text = age.toString() + " " + stringResource(Res.string.years),
                 icon = Res.drawable.ic_age
             )
             PrevStepItem(
-                text = Res.string.cm,
+                text = height.toString() + " " + stringResource(Res.string.cm),
                 icon = Res.drawable.ic_height
             )
             PrevStepItem(
-                text = Res.string.kg,
+                text = weight.toString() + " " + stringResource(Res.string.kg),
                 icon = Res.drawable.ic_weight
             )
         }
@@ -234,7 +247,7 @@ fun GoalsContent(
                     if (selectedGoals.isEmpty()) {
                         goalsError = true
                     } else {
-                        onNext()
+                        onNext(selectedGoals.toList())
                     }
                 },
                 modifier = Modifier
@@ -326,12 +339,12 @@ fun GoalItem(
 fun PrevStepItem(
     modifier : Modifier = Modifier,
     icon : DrawableResource,
-    text : StringResource
+    text : String
 ) {
     SuggestionChip(
         onClick = {},
         label = {
-            Text(text = stringResource(text))
+            Text(text = text)
         },
         icon = {
             Icon(
