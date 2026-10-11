@@ -5,7 +5,7 @@
     <string name="get_started">Get Started</string>
     <string name="field_required">This field is required</string>
     <string name="invalid_value">Please enter a valid value</string>
-    <string name="lets_get_to_know_you">Let\'s get to know you</string>
+    <string name="lets_get_to_know_you">Let's get to know you</string>
     <string name="help_us_tailor_your_plan">Help us tailor your plan by providing basic information.</string>
     <string name="back">Back</string>
     <string name="age">Age</string>
@@ -39,4 +39,6 @@
     <string name="very_active_sub_text">Hard exercise or sports 6–7 days per week.</string>
     <string name="extremely_active">Extremely active</string>
     <string name="extremely_active_sub_text">Very demanding training or physically demanding work.</string>
+    <string name="how_long_train">How long do you want to train?</string>
+    <string name="select_preferred_session_duration">Select your preferred session duration so we can tailor the training plans to your schedule.</string>
 </resources>

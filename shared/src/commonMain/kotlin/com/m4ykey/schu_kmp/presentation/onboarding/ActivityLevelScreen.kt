@@ -1,7 +1,5 @@
 package com.m4ykey.schu_kmp.presentation.onboarding
 
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -23,18 +21,15 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -46,6 +41,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.m4ykey.schu_kmp.core.ui.TopBar
+import com.m4ykey.schu_kmp.core.ui.rememberAnimatedProgress
 import com.m4ykey.schu_kmp.domain.ActivityLevels
 import com.m4ykey.schu_kmp.domain.FitnessGoal
 import com.m4ykey.schu_kmp.domain.icon
@@ -59,7 +56,6 @@ import org.jetbrains.compose.resources.stringResource
 import schukmp.shared.generated.resources.Res
 import schukmp.shared.generated.resources.activity_level_sub_text
 import schukmp.shared.generated.resources.back
-import schukmp.shared.generated.resources.ic_arrow_back
 import schukmp.shared.generated.resources.next
 import schukmp.shared.generated.resources.prev_step
 import schukmp.shared.generated.resources.what_is_your_activity_level
@@ -73,7 +69,7 @@ fun ActivityLevelScreen(
 ) {
     Scaffold(
         topBar = {
-            ActivityLevelTopBar(onBack = onBack)
+            TopBar(onBack = onBack)
         }
     ) { paddingValues ->
         ActivityLevelContent(
@@ -95,21 +91,10 @@ fun ActivityLevelContent(
     val currentStep = 3
     val totalSteps = 5
 
-    var animationStarted by remember { mutableStateOf(false) }
-
-    val progress by animateFloatAsState(
-        targetValue = if (animationStarted) {
-            currentStep.toFloat() / totalSteps
-        } else {
-            (currentStep - 1).toFloat() / totalSteps
-        },
-        animationSpec = tween(durationMillis = 600),
-        label = "onboardingProgress"
+    val progress = rememberAnimatedProgress(
+        totalSteps = totalSteps,
+        currentStep = currentStep
     )
-
-    LaunchedEffect(Unit) {
-        animationStarted = true
-    }
 
     var selectedLevels by remember {
         mutableStateOf<Set<ActivityLevels>>(emptySet())
@@ -314,24 +299,4 @@ fun ActivityLevelItem(
             )
         }
     }
-}
-
-@Composable
-fun ActivityLevelTopBar(onBack: () -> Unit) {
-    CenterAlignedTopAppBar(
-        title = {
-            Text(
-                text = "",
-                fontSize = 18.sp
-            )
-        },
-        navigationIcon = {
-            IconButton(onClick = onBack) {
-                Icon(
-                    painter = painterResource(Res.drawable.ic_arrow_back),
-                    contentDescription = stringResource(Res.string.back)
-                )
-            }
-        }
-    )
 }

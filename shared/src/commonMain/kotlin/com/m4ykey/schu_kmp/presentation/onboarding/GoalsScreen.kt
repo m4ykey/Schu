@@ -1,7 +1,5 @@
 package com.m4ykey.schu_kmp.presentation.onboarding
 
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -22,19 +20,16 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -46,10 +41,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.m4ykey.schu_kmp.core.ui.TopBar
+import com.m4ykey.schu_kmp.core.ui.rememberAnimatedProgress
 import com.m4ykey.schu_kmp.domain.FitnessGoal
 import com.m4ykey.schu_kmp.domain.icon
 import com.m4ykey.schu_kmp.domain.title
-import com.m4ykey.schu_kmp.presentation.onboarding.model.PersonalInfoItem
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.painterResource
@@ -59,7 +55,6 @@ import schukmp.shared.generated.resources.back
 import schukmp.shared.generated.resources.cm
 import schukmp.shared.generated.resources.goal_required
 import schukmp.shared.generated.resources.ic_age
-import schukmp.shared.generated.resources.ic_arrow_back
 import schukmp.shared.generated.resources.ic_height
 import schukmp.shared.generated.resources.ic_weight
 import schukmp.shared.generated.resources.kg
@@ -68,7 +63,6 @@ import schukmp.shared.generated.resources.prev_step
 import schukmp.shared.generated.resources.this_will_help_personalize_your_training_plan
 import schukmp.shared.generated.resources.what_is_your_goal
 import schukmp.shared.generated.resources.years
-import kotlin.collections.emptySet
 
 @Composable
 fun GoalsScreen(
@@ -81,7 +75,7 @@ fun GoalsScreen(
 ) {
     Scaffold(
         topBar = {
-            GoalsTopBar(onBack = onBack)
+            TopBar(onBack = onBack)
         }
     ) { paddingValues ->
         GoalsContent(
@@ -107,16 +101,9 @@ fun GoalsContent(
     val currentStep = 2
     val totalSteps = 5
 
-    var animationStarted by remember { mutableStateOf(false) }
-
-    val progress by animateFloatAsState(
-        label = "onboardingProgress",
-        animationSpec = tween(durationMillis = 600),
-        targetValue = if (animationStarted) {
-            currentStep.toFloat() / totalSteps
-        } else {
-            (currentStep - 1).toFloat() / totalSteps
-        }
+    val progress = rememberAnimatedProgress(
+        totalSteps = totalSteps,
+        currentStep = currentStep
     )
 
     var selectedGoals by remember {
@@ -134,10 +121,6 @@ fun GoalsContent(
         FitnessGoal.ENDURANCE,
         FitnessGoal.GENERAL_FITNESS
     )
-
-    LaunchedEffect(Unit) {
-        animationStarted = true
-    }
 
     Column(
         modifier = modifier
@@ -353,25 +336,6 @@ fun PrevStepItem(
                 painter = painterResource(icon),
                 contentDescription = null
             )
-        }
-    )
-}
-
-@Composable
-fun GoalsTopBar(onBack: () -> Unit) {
-    CenterAlignedTopAppBar(
-        title = {
-            Text(
-                text = ""
-            )
-        },
-        navigationIcon = {
-            IconButton(onClick = onBack) {
-                Icon(
-                    contentDescription = stringResource(Res.string.back),
-                    painter = painterResource(Res.drawable.ic_arrow_back)
-                )
-            }
         }
     )
 }

@@ -15,6 +15,7 @@ import androidx.savedstate.serialization.SavedStateConfiguration
 import com.m4ykey.schu_kmp.presentation.onboarding.ActivityLevelScreen
 import com.m4ykey.schu_kmp.presentation.onboarding.GoalsScreen
 import com.m4ykey.schu_kmp.presentation.onboarding.PersonalInfoScreen
+import com.m4ykey.schu_kmp.presentation.onboarding.WorkoutTimeScreen
 import com.m4ykey.schu_kmp.presentation.welcome.WelcomeScreen
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
@@ -32,6 +33,7 @@ fun AppNavigation(
                     subclass(Route.PersonalInfoScreen::class)
                     subclass(Route.GoalsScreen::class)
                     subclass(Route.ActivityLevelScreen::class)
+                    subclass(Route.WorkoutTime::class)
                 }
             }
         },
@@ -101,8 +103,15 @@ fun AppNavigation(
             entry<Route.ActivityLevelScreen> { key ->
                 ActivityLevelScreen(
                     onBack = ::navigateBack,
-                    onNext = {},
+                    onNext = {
+                        navigateTo(Route.WorkoutTime)
+                    },
                     goals = key.goals
+                )
+            }
+            entry<Route.WorkoutTime> {
+                WorkoutTimeScreen(
+                    onBack = ::navigateBack
                 )
             }
         }

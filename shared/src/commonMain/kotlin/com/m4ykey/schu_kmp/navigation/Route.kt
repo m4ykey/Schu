@@ -19,4 +19,7 @@ sealed interface Route : NavKey {
     @Serializable
     data class ActivityLevelScreen(val goals : List<FitnessGoal>) : Route
 
+    @Serializable
+    data object WorkoutTime : Route
+
 }
