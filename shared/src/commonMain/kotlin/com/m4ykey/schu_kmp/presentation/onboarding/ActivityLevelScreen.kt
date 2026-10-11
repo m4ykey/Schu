@@ -8,25 +8,18 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LinearProgressIndicator
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -42,22 +35,20 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.m4ykey.schu_kmp.core.ui.TopBar
-import com.m4ykey.schu_kmp.core.ui.rememberAnimatedProgress
 import com.m4ykey.schu_kmp.domain.ActivityLevels
 import com.m4ykey.schu_kmp.domain.FitnessGoal
 import com.m4ykey.schu_kmp.domain.icon
 import com.m4ykey.schu_kmp.domain.subText
 import com.m4ykey.schu_kmp.domain.text
 import com.m4ykey.schu_kmp.domain.title
+import com.m4ykey.schu_kmp.presentation.onboarding.component.OnBoardingSelectionLayout
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import schukmp.shared.generated.resources.Res
+import schukmp.shared.generated.resources.activity_level_required
 import schukmp.shared.generated.resources.activity_level_sub_text
-import schukmp.shared.generated.resources.back
-import schukmp.shared.generated.resources.next
-import schukmp.shared.generated.resources.prev_step
 import schukmp.shared.generated.resources.what_is_your_activity_level
 
 @Composable
@@ -91,13 +82,12 @@ fun ActivityLevelContent(
     val currentStep = 3
     val totalSteps = 5
 
-    val progress = rememberAnimatedProgress(
-        totalSteps = totalSteps,
-        currentStep = currentStep
-    )
-
     var selectedLevels by remember {
         mutableStateOf<Set<ActivityLevels>>(emptySet())
+    }
+
+    var activityLevelsError by remember {
+        mutableStateOf(false)
     }
 
     val levels = listOf(
@@ -108,41 +98,26 @@ fun ActivityLevelContent(
         ActivityLevels.EXTREMELY_ACTIVE
     )
 
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
-        LinearProgressIndicator(
-            progress = { progress },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(6.dp),
-            color = Color(0xFF006B5F),
-            trackColor = Color(0xFFE7E8E9)
-        )
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            item {
-                Spacer(modifier = Modifier.height(24.dp))
+    OnBoardingSelectionLayout(
+        modifier = modifier,
+        currentStep = currentStep,
+        totalSteps = totalSteps,
+        onBack = onBack,
+        errorMessage = if (activityLevelsError) {
+            stringResource(Res.string.activity_level_required)
+        } else {
+            null
+        },
+        onNext = {
+            if (selectedLevels.isEmpty()) {
+                activityLevelsError = true
+            } else {
+                onNext()
             }
-            item {
-                Text(
-                    fontWeight = FontWeight.Bold,
-                    style = MaterialTheme.typography.headlineMedium,
-                    text = stringResource(Res.string.what_is_your_activity_level)
-                )
-            }
-            item {
-                Text(
-                    fontSize = 16.sp,
-                    text = stringResource(Res.string.activity_level_sub_text)
-                )
-            }
+        },
+        title = stringResource(Res.string.what_is_your_activity_level),
+        description = stringResource(Res.string.activity_level_sub_text),
+        optionsContent = {
             items(levels) { level ->
                 ActivityLevelItem(
                     selected = level in selectedLevels,
@@ -157,65 +132,26 @@ fun ActivityLevelContent(
                         }
 
                         if (selected) {
-
+                            activityLevelsError = false
                         }
                     }
                 )
             }
-        }
-
-        HorizontalDivider()
-        Spacer(modifier = Modifier.height(16.dp))
-        Text(
-            text = stringResource(Res.string.prev_step),
-            color = Color.DarkGray,
-            fontSize = 16.sp
-        )
-        LazyRow(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(10.dp)
-        ) {
-            items(goals) { goal ->
-                PrevStepItem(
-                    icon = goal.icon,
-                    text = stringResource(goal.title)
-                )
-            }
-        }
-        Row(
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Button(
-                onClick = onBack,
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFE7E8E9)),
-                modifier = Modifier.height(48.dp)
+        },
+        previousStepContent = {
+            LazyRow(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-                Text(
-                    text = stringResource(Res.string.back),
-                    color = Color.Black
-                )
-            }
-            Spacer(modifier = Modifier.width(10.dp))
-            Button(
-                onClick = {
-                    if (selectedLevels.isEmpty()) {
-
-                    } else {
-                        onNext()
-                    }
-                },
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF006B5F)),
-                modifier = Modifier
-                    .height(48.dp)
-                    .fillMaxWidth()
-            ) {
-                Text(
-                    text = stringResource(Res.string.next),
-                    color = Color.White
-                )
+                items(goals) { goal ->
+                    PrevStepItem(
+                        icon = goal.icon,
+                        text = stringResource(goal.title)
+                    )
+                }
             }
         }
-    }
+    )
 }
 
 @Composable

@@ -22,6 +22,7 @@
     <string name="general_fitness">Poprawa ogólnej kondycji</string>
     <string name="prev_step">POPRZEDNI KROK</string>
     <string name="goal_required">Wybierz co najmniej jeden cel.</string>
+    <string name="activity_level_required">Wybierz co najmniej jeden poziom aktywności.</string>
     <string name="what_is_your_goal">Jaki jest Twój cel?</string>
     <string name="this_will_help_personalize_your_training_plan">Dzięki temu dopasujemy Twój plan treningowy do Twoich potrzeb.</string>
     <string name="years">lat</string>

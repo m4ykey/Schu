@@ -3,29 +3,21 @@ package com.m4ykey.schu_kmp.presentation.onboarding
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LinearProgressIndicator
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SuggestionChip
 import androidx.compose.material3.Text
@@ -42,24 +34,21 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.m4ykey.schu_kmp.core.ui.TopBar
-import com.m4ykey.schu_kmp.core.ui.rememberAnimatedProgress
 import com.m4ykey.schu_kmp.domain.FitnessGoal
 import com.m4ykey.schu_kmp.domain.icon
 import com.m4ykey.schu_kmp.domain.title
+import com.m4ykey.schu_kmp.presentation.onboarding.component.OnBoardingSelectionLayout
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import schukmp.shared.generated.resources.Res
-import schukmp.shared.generated.resources.back
 import schukmp.shared.generated.resources.cm
 import schukmp.shared.generated.resources.goal_required
 import schukmp.shared.generated.resources.ic_age
 import schukmp.shared.generated.resources.ic_height
 import schukmp.shared.generated.resources.ic_weight
 import schukmp.shared.generated.resources.kg
-import schukmp.shared.generated.resources.next
-import schukmp.shared.generated.resources.prev_step
 import schukmp.shared.generated.resources.this_will_help_personalize_your_training_plan
 import schukmp.shared.generated.resources.what_is_your_goal
 import schukmp.shared.generated.resources.years
@@ -101,11 +90,6 @@ fun GoalsContent(
     val currentStep = 2
     val totalSteps = 5
 
-    val progress = rememberAnimatedProgress(
-        totalSteps = totalSteps,
-        currentStep = currentStep
-    )
-
     var selectedGoals by remember {
         mutableStateOf<Set<FitnessGoal>>(emptySet())
     }
@@ -122,41 +106,26 @@ fun GoalsContent(
         FitnessGoal.GENERAL_FITNESS
     )
 
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(16.dp)
-    ) {
-        LinearProgressIndicator(
-            progress = { progress },
-            modifier = Modifier
-                .height(6.dp)
-                .fillMaxWidth(),
-            color = Color(0xFF006B5F),
-            trackColor = Color(0xFFE7E8E9)
-        )
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
-        ) {
-            item {
-                Spacer(modifier = Modifier.height(24.dp))
+    OnBoardingSelectionLayout(
+        modifier = modifier,
+        currentStep = currentStep,
+        title = stringResource(Res.string.what_is_your_goal),
+        description = stringResource(Res.string.this_will_help_personalize_your_training_plan),
+        onBack = onBack,
+        errorMessage = if (goalsError) {
+            stringResource(Res.string.goal_required)
+        } else {
+            null
+        },
+        onNext = {
+            if (selectedGoals.isEmpty()) {
+                goalsError = true
+            } else {
+                onNext(selectedGoals.toList())
             }
-            item {
-                Text(
-                    fontWeight = FontWeight.Bold,
-                    style = MaterialTheme.typography.headlineMedium,
-                    text = stringResource(Res.string.what_is_your_goal)
-                )
-            }
-            item {
-                Text(
-                    fontSize = 16.sp,
-                    text = stringResource(Res.string.this_will_help_personalize_your_training_plan)
-                )
-            }
+        },
+        totalSteps = totalSteps,
+        optionsContent = {
             items(goals) { goal ->
                 GoalItem(
                     text = goal.title,
@@ -175,76 +144,27 @@ fun GoalsContent(
                     }
                 )
             }
-            item {
-                Spacer(modifier = Modifier.height(10.dp))
-            }
-        }
-
-        if (goalsError) {
-            Text(
-                fontSize = 14.sp,
-                modifier = Modifier.padding(top = 8.dp, bottom = 8.dp),
-                color = MaterialTheme.colorScheme.error,
-                text = stringResource(Res.string.goal_required)
-            )
-        }
-
-        HorizontalDivider()
-        Spacer(modifier = Modifier.height(16.dp))
-        Text(
-            text = stringResource(Res.string.prev_step),
-            color = Color.DarkGray,
-            fontSize = 16.sp
-        )
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(10.dp)
-        ) {
-            PrevStepItem(
-                text = age.toString() + " " + stringResource(Res.string.years),
-                icon = Res.drawable.ic_age
-            )
-            PrevStepItem(
-                text = height.toString() + " " + stringResource(Res.string.cm),
-                icon = Res.drawable.ic_height
-            )
-            PrevStepItem(
-                text = weight.toString() + " " + stringResource(Res.string.kg),
-                icon = Res.drawable.ic_weight
-            )
-        }
-        Row(modifier = Modifier.fillMaxWidth()) {
-            Button(
-                onClick = onBack,
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFE7E8E9)),
-                modifier = Modifier.height(48.dp)
+        },
+        previousStepContent = {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-                Text(
-                    color = Color.Black,
-                    text = stringResource(Res.string.back)
+                PrevStepItem(
+                    text = age.toString() + " " + stringResource(Res.string.years),
+                    icon = Res.drawable.ic_age
                 )
-            }
-            Spacer(modifier = Modifier.width(10.dp))
-            Button(
-                onClick = {
-                    if (selectedGoals.isEmpty()) {
-                        goalsError = true
-                    } else {
-                        onNext(selectedGoals.toList())
-                    }
-                },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(48.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF006B5F))
-            ) {
-                Text(
-                    color = Color.White,
-                    text = stringResource(Res.string.next)
+                PrevStepItem(
+                    text = height.toString() + " " + stringResource(Res.string.cm),
+                    icon = Res.drawable.ic_height
+                )
+                PrevStepItem(
+                    text = weight.toString() + " " + stringResource(Res.string.kg),
+                    icon = Res.drawable.ic_weight
                 )
             }
         }
-    }
+    )
 }
 
 @Composable

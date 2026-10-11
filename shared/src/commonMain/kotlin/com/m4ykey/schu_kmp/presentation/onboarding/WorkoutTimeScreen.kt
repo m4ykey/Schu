@@ -2,12 +2,16 @@ package com.m4ykey.schu_kmp.presentation.onboarding
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -23,6 +27,7 @@ import com.m4ykey.schu_kmp.core.ui.rememberAnimatedProgress
 import org.jetbrains.compose.resources.stringResource
 import schukmp.shared.generated.resources.Res
 import schukmp.shared.generated.resources.how_long_train
+import schukmp.shared.generated.resources.prev_step
 import schukmp.shared.generated.resources.select_preferred_session_duration
 
 @Composable
@@ -87,6 +92,28 @@ fun WorkoutTimeContent(
                     text = stringResource(Res.string.select_preferred_session_duration)
                 )
             }
+            item {
+                Spacer(modifier = Modifier.height(10.dp))
+            }
+        }
+
+        HorizontalDivider()
+        Spacer(modifier = Modifier.height(16.dp))
+        Text(
+            color = Color.DarkGray,
+            fontSize = 16.sp,
+            text = stringResource(Res.string.prev_step)
+        )
+        LazyRow(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+
+        }
+        Row(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+
         }
     }
 }
