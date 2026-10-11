@@ -55,7 +55,7 @@ import schukmp.shared.generated.resources.what_is_your_activity_level
 fun ActivityLevelScreen(
     modifier: Modifier = Modifier,
     onBack : () -> Unit,
-    onNext : () -> Unit,
+    onNext : (activities : List<ActivityLevels>) -> Unit,
     goals : List<FitnessGoal>
 ) {
     Scaffold(
@@ -75,7 +75,7 @@ fun ActivityLevelScreen(
 @Composable
 fun ActivityLevelContent(
     modifier: Modifier = Modifier,
-    onNext: () -> Unit,
+    onNext: (activities : List<ActivityLevels>) -> Unit,
     onBack: () -> Unit,
     goals : List<FitnessGoal>
 ) {
@@ -112,7 +112,7 @@ fun ActivityLevelContent(
             if (selectedLevels.isEmpty()) {
                 activityLevelsError = true
             } else {
-                onNext()
+                onNext(selectedLevels.toList())
             }
         },
         title = stringResource(Res.string.what_is_your_activity_level),

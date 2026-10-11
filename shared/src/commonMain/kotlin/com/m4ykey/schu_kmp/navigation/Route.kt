@@ -1,6 +1,7 @@
 package com.m4ykey.schu_kmp.navigation
 
 import androidx.navigation3.runtime.NavKey
+import com.m4ykey.schu_kmp.domain.ActivityLevels
 import com.m4ykey.schu_kmp.domain.FitnessGoal
 import kotlinx.serialization.Serializable
 
@@ -20,6 +21,6 @@ sealed interface Route : NavKey {
     data class ActivityLevelScreen(val goals : List<FitnessGoal>) : Route
 
     @Serializable
-    data object WorkoutTime : Route
+    data class WorkoutTime(val activities : List<ActivityLevels>) : Route
 
 }

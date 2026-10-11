@@ -23,6 +23,7 @@
     <string name="prev_step">PREVIOUS STEP</string>
     <string name="goal_required">Please select at least one goal.</string>
     <string name="activity_level_required">Please select at least one activity level.</string>
+    <string name="train_time_required">Please select one train time.</string>
     <string name="what_is_your_goal">What is your goal?</string>
     <string name="this_will_help_personalize_your_training_plan">This will help us personalize your training plan.</string>
     <string name="years">years</string>
@@ -42,4 +43,10 @@
     <string name="extremely_active_sub_text">Very demanding training or physically demanding work.</string>
     <string name="how_long_train">How long do you want to train?</string>
     <string name="select_preferred_session_duration">Select your preferred session duration so we can tailor the training plans to your schedule.</string>
+    <string name="fast_effective_time">15 - 30 minutes</string>
+    <string name="sustainable_time">30 - 45 minutes</string>
+    <string name="intensely_time">45 - 60+ minutes</string>
+    <string name="fast_effective">Fast and Effective</string>
+    <string name="sustainable">Recommended - Sustainable</string>
+    <string name="intensely">Intensely</string>
 </resources>

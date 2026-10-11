@@ -103,15 +103,16 @@ fun AppNavigation(
             entry<Route.ActivityLevelScreen> { key ->
                 ActivityLevelScreen(
                     onBack = ::navigateBack,
-                    onNext = {
-                        navigateTo(Route.WorkoutTime)
+                    onNext = { activities ->
+                        navigateTo(Route.WorkoutTime(activities = activities))
                     },
                     goals = key.goals
                 )
             }
-            entry<Route.WorkoutTime> {
+            entry<Route.WorkoutTime> { key ->
                 WorkoutTimeScreen(
-                    onBack = ::navigateBack
+                    onBack = ::navigateBack,
+                    activities = key.activities
                 )
             }
         }

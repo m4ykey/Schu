@@ -23,6 +23,7 @@
     <string name="prev_step">POPRZEDNI KROK</string>
     <string name="goal_required">Wybierz co najmniej jeden cel.</string>
     <string name="activity_level_required">Wybierz co najmniej jeden poziom aktywności.</string>
+    <string name="train_time_required">Wybierz jeden czas treningu.</string>
     <string name="what_is_your_goal">Jaki jest Twój cel?</string>
     <string name="this_will_help_personalize_your_training_plan">Dzięki temu dopasujemy Twój plan treningowy do Twoich potrzeb.</string>
     <string name="years">lat</string>
@@ -42,4 +43,10 @@
     <string name="extremely_active_sub_text">Bardzo intensywne treningi lub wymagająca fizycznie praca.</string>
     <string name="how_long_train">Jak długo chcesz trenować?</string>
     <string name="select_preferred_session_duration">Wybierz preferowany czas trwania sesji, abyśmy mogli dopasować plany treningowe do Twojego harmonogramu.</string>
+    <string name="fast_effective_time">15 - 30 minut</string>
+    <string name="sustainable_time">30 - 45 minut</string>
+    <string name="intensely_time">45 - 60+ minut</string>
+    <string name="fast_effective">Szybko i efektywnie</string>
+    <string name="sustainable">Zalecane - Zrównoważone</string>
+    <string name="intensely">Intensywnie</string>
 </resources>
